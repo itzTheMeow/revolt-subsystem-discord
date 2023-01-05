@@ -1,7 +1,7 @@
 {
-  "name": "FILL",
+  "name": "revolt-discord-api",
   "version": "0.0.1",
-  "description": "FILL",
+  "description": "Revolt <=> Discord Parity",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itzTheMeow/FILL.git"
+    "url": "git+https://github.com/itzTheMeow/revolt-discord-api.git"
   },
   "author": "Meow",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/itzTheMeow/FILL/issues"
+    "url": "https://github.com/itzTheMeow/revolt-discord-api/issues"
   },
-  "homepage": "https://github.com/itzTheMeow/FILL#readme",
+  "homepage": "https://github.com/itzTheMeow/revolt-discord-api#readme",
   "dependencies": {
     "@types/node": "^18.7.18",
     "typescript": "^4.8.3"
