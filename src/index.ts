@@ -62,7 +62,8 @@ export function POST<
 ) {
   app.post(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
-    if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
+    if (!authenticated && path !== "/auth/session/login")
+      return res.status(401).json({ err: "Unauthorized" });
     res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));
   });
 }
