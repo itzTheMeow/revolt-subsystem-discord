@@ -1,5 +1,5 @@
 import { BaseGuildTextChannel, Channel, OverwriteType } from "discord.js";
-import { APIChannel } from "revolt-toolset";
+import { APIChannel, Permissions } from "revolt-toolset";
 import { discPerm2Revolt } from "./permissions";
 import { snowflakeToULID } from "./ulid";
 
@@ -22,18 +22,32 @@ export default function mapChannel(channel: Channel): APIChannel | null {
           icon: null,
           last_message_id: snowflakeToULID(channel.lastMessageId),
           nsfw: channel.nsfw,
-          role_permissions: channel.permissionOverwrites.cache
-            .filter((o) => o.type == OverwriteType.Role && o.id !== channel.guildId)
-            .reduce(
-              (v, o) => ({
-                ...v,
-                [snowflakeToULID(o.id)]: {
-                  a: discPerm2Revolt(o.allow).bits,
-                  d: discPerm2Revolt(o.deny).bits,
-                },
-              }),
-              {}
-            ),
+          role_permissions: {
+            ...channel.permissionOverwrites.cache
+              .filter((o) => o.type == OverwriteType.Role && o.id !== channel.guildId)
+              .reduce(
+                (v, o) => ({
+                  ...v,
+                  [snowflakeToULID(o.id)]: {
+                    a: discPerm2Revolt(o.allow).bits,
+                    d: discPerm2Revolt(o.deny).bits,
+                  },
+                }),
+                {}
+              ),
+            ...channel.guild.roles.cache
+              .filter((r) => r.permissions.has("Administrator"))
+              .reduce(
+                (v, o) => ({
+                  ...v,
+                  [snowflakeToULID(o.id)]: {
+                    a: Permissions.GrantAllSafe,
+                    d: 0,
+                  },
+                }),
+                {}
+              ),
+          },
           server: snowflakeToULID(channel.guildId),
         }
       : null;
