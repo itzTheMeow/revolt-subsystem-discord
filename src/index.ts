@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import ws from "ws";
@@ -8,6 +9,7 @@ import { Count, GetRoutes, Req } from "./types";
 import handleConnection from "./ws";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 export function GET<
