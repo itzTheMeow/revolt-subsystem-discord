@@ -31,6 +31,6 @@ export async function doAuthenticate(token: string) {
 }
 export async function destroyClient(client: Client) {
   const i = ClientMap.findIndex((c) => c.client == client);
-  if (i >= 0) ClientMap.splice(i, 0);
+  if (i >= 0) ClientMap.splice(i, 1);
   client.destroy();
 }
