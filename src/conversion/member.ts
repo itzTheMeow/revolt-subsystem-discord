@@ -12,7 +12,9 @@ export default function mapMember(member: GuildMember): APIMember {
     joined_at: member.joinedAt.toISOString(),
     nickname: member.nickname ?? null,
     avatar: mapAttachment(member.id, member.avatarURL({ size: 256, extension: "png" })),
-    roles: member.roles.cache.map((r) => snowflakeToULID(r.id)),
+    roles: member.roles.cache
+      .filter((r) => r.id !== member.guild.id)
+      .map((r) => snowflakeToULID(r.id)),
     timeout: member.communicationDisabledUntil
       ? member.communicationDisabledUntil.toISOString()
       : null,
