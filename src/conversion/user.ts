@@ -10,7 +10,7 @@ export default function mapUser(user: DiscordUser): APIUser {
     flags: 0,
     avatar: {
       _id: snowflakeToULID(user.id),
-      tag: LZString.compressToUTF16(
+      tag: LZString.compressToEncodedURIComponent(
         user.displayAvatarURL({
           size: 256,
           extension: "png",
