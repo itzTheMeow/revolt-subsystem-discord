@@ -41,7 +41,7 @@ export default function mapServer(server: Guild): APIServer {
     nsfw: false,
     owner: snowflakeToULID(server.ownerId),
     roles: server.roles.cache.reduce(
-      (list, role) => ({
+      (list, role, i) => ({
         ...list,
         [snowflakeToULID(role.id)]: {
           name: role.name,
@@ -51,7 +51,7 @@ export default function mapServer(server: Guild): APIServer {
           },
           colour: role.color ? role.hexColor : null,
           hoist: role.hoist,
-          rank: role.rawPosition,
+          rank: role.guild.roles.cache.size - role.position,
         },
       }),
       {}
