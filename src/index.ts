@@ -1,7 +1,9 @@
+import axios from "axios";
 import cors from "cors";
 import { Client } from "discord.js";
 import express from "express";
 import { createServer } from "http";
+import LZString from "lz-string";
 import ws from "ws";
 import { getAuthenticated } from "./auth";
 import config from "./config";
@@ -56,6 +58,19 @@ export function POST<
     res.status(200).json(await callback({ ...(<any>req.body), authenticated }, req));
   });
 }
+
+app.get("/attachments/:data/*", async (req, res) => {
+  try {
+    const url = LZString.decompressFromEncodedURIComponent(req.params.data);
+    if (!url) return res.status(404).send("NOT OK");
+    const data = await axios.get(url, {
+      responseType: "arraybuffer",
+    });
+    res.contentType(data.headers["content-type"]).status(200).end(data.data);
+  } catch {
+    res.status(404).send("NOT OK");
+  }
+});
 
 initRoutes();
 
