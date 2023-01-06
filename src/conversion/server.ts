@@ -22,7 +22,9 @@ export default function mapServer(server: Guild): APIServer {
       .map((c: CategoryChannel) => ({
         id: snowflakeToULID(c.id),
         title: c.name,
-        channels: c.children.cache.map((c) => snowflakeToULID(c.id)),
+        channels: c.children.cache
+          .sorted((a, b) => a.position - b.position)
+          .map((c) => snowflakeToULID(c.id)),
       })),
     default_permissions: discPerm2Revolt(server.roles.cache.get(server.id)?.permissions).bits,
     description: server.description,
