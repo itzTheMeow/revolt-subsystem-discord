@@ -40,22 +40,24 @@ export default function mapServer(server: Guild): APIServer {
     icon: mapAttachment(server.id, server.iconURL({ size: 256, extension: "png" })),
     nsfw: false,
     owner: snowflakeToULID(server.ownerId),
-    roles: server.roles.cache.reduce(
-      (list, role, i) => ({
-        ...list,
-        [snowflakeToULID(role.id)]: {
-          name: role.name,
-          permissions: {
-            a: discPerm2Revolt(role.permissions).bits,
-            d: 0,
+    roles: server.roles.cache
+      .filter((r) => r.id !== server.id)
+      .reduce(
+        (list, role) => ({
+          ...list,
+          [snowflakeToULID(role.id)]: {
+            name: role.name,
+            permissions: {
+              a: discPerm2Revolt(role.permissions).bits,
+              d: 0,
+            },
+            colour: role.color ? role.hexColor : null,
+            hoist: role.hoist,
+            rank: role.guild.roles.cache.size - role.position,
           },
-          colour: role.color ? role.hexColor : null,
-          hoist: role.hoist,
-          rank: role.guild.roles.cache.size - role.position,
-        },
-      }),
-      {}
-    ),
+        }),
+        {}
+      ),
     system_messages: null,
   };
 }
