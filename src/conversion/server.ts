@@ -43,13 +43,13 @@ export default function mapServer(server: Guild): APIServer {
     roles: server.roles.cache.reduce(
       (list, role) => ({
         ...list,
-        [role.id]: {
+        [snowflakeToULID(role.id)]: {
           name: role.name,
           permissions: {
             a: discPerm2Revolt(role.permissions).bits,
             d: 0,
           },
-          colour: role.hexColor,
+          colour: role.color ? role.hexColor : null,
           hoist: role.hoist,
           rank: role.rawPosition,
         },
