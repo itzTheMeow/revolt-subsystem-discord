@@ -5,6 +5,7 @@ import {
 import WebSocket from "ws";
 import { destroyClient, doAuthenticate } from "./auth";
 import mapChannel from "./conversion/channel";
+import mapServer from "./conversion/server";
 import mapUser from "./conversion/user";
 
 export default async function handleConnection(ws: WebSocket, _token: string) {
@@ -35,7 +36,7 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
   send({
     type: "Ready",
     users: authenticated.users.cache.map(mapUser),
-    servers: [],
+    servers: authenticated.guilds.cache.map(mapServer),
     channels: authenticated.channels.cache.map(mapChannel).filter((c) => c),
     members: [],
     emojis: [],
