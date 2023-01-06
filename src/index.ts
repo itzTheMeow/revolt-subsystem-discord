@@ -4,6 +4,7 @@ import { Client } from "discord.js";
 import express from "express";
 import { createServer } from "http";
 import LZString from "lz-string";
+import nocache from "nocache";
 import ws from "ws";
 import { getAuthenticated } from "./auth";
 import config from "./config";
@@ -35,7 +36,7 @@ export function GET<
     //@ts-expect-error
   ) => Promise<Route["response"]>
 ) {
-  app.get(doPath(path), async (req, res) => {
+  app.get(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated && path !== "/") return res.status(401).json({ err: "Unauthorized" });
     res
@@ -58,7 +59,7 @@ export function POST<
     //@ts-expect-error
   ) => Promise<Route["response"]>
 ) {
-  app.post(doPath(path), async (req, res) => {
+  app.post(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
     res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));

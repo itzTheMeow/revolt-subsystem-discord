@@ -28,6 +28,7 @@
     "discord.js": "^14.7.1",
     "express": "^4.18.2",
     "lz-string": "^1.4.4",
+    "nocache": "^3.0.4",
     "revolt-api": "^0.5.5-5",
     "revolt-toolset": "^1.0.19",
     "rimraf": "^3.0.2",
