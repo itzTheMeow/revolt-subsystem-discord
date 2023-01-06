@@ -16,13 +16,16 @@ export default function mapServer(server: Guild): APIServer {
           c.type == ChannelType.GuildText ||
           c.type == ChannelType.GuildVoice
       )
+      .filter((c) => c.viewable)
       .map((c) => snowflakeToULID(c.id)),
     categories: server.channels.cache
       .filter((c) => c.type == ChannelType.GuildCategory)
+      .filter((c) => c.viewable)
       .map((c: CategoryChannel) => ({
         id: snowflakeToULID(c.id),
         title: c.name,
         channels: c.children.cache
+          .filter((c) => c.viewable)
           .sorted((a, b) => a.position - b.position)
           .map((c) => snowflakeToULID(c.id)),
       })),
