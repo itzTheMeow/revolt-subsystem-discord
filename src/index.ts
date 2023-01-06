@@ -16,6 +16,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+function doPath(path: string) {
+  return path.replace(/^-/, "").replace(/{(\S+?)}/g, ":$1");
+}
+
 export function GET<
   Path extends GetRoutes["path"],
   Route extends GetRoutes & {
@@ -31,10 +35,12 @@ export function GET<
     //@ts-expect-error
   ) => Promise<Route["response"]>
 ) {
-  app.get(path, async (req, res) => {
+  app.get(doPath(path), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated && path !== "/") return res.status(401).json({ err: "Unauthorized" });
-    res.status(200).json(await callback({ ...(<any>req.query), authenticated }, req));
+    res
+      .status(200)
+      .json(await callback({ ...(<any>req.query), ...req.params, authenticated }, req));
   });
 }
 export function POST<
@@ -52,10 +58,10 @@ export function POST<
     //@ts-expect-error
   ) => Promise<Route["response"]>
 ) {
-  app.post(path, async (req, res) => {
+  app.post(doPath(path), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
-    res.status(200).json(await callback({ ...(<any>req.body), authenticated }, req));
+    res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));
   });
 }
 
