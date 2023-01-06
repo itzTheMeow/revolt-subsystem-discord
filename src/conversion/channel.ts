@@ -3,7 +3,7 @@ import { APIChannel } from "revolt-toolset";
 import { discPerm2Revolt } from "./permissions";
 import { snowflakeToULID } from "./ulid";
 
-export default function mapChannel(channel: Channel): APIChannel {
+export default function mapChannel(channel: Channel): APIChannel | null {
   const _id = snowflakeToULID(channel.id);
   if (channel instanceof BaseGuildTextChannel)
     return {
@@ -30,6 +30,7 @@ export default function mapChannel(channel: Channel): APIChannel {
         ),
       server: snowflakeToULID(channel.guildId),
     };
+  return null;
 }
 
 /* 

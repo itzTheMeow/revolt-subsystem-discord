@@ -4,6 +4,7 @@ import {
 } from "revolt-toolset/dist/es6/websocketNotifications";
 import WebSocket from "ws";
 import { destroyClient, doAuthenticate } from "./auth";
+import mapChannel from "./conversion/channel";
 import mapUser from "./conversion/user";
 
 export default async function handleConnection(ws: WebSocket, _token: string) {
@@ -35,7 +36,7 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
     type: "Ready",
     users: authenticated.users.cache.map(mapUser),
     servers: [],
-    channels: [],
+    channels: authenticated.channels.cache.map(mapChannel).filter((c) => c),
     members: [],
     emojis: [],
   });
