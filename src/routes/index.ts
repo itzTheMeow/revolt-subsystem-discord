@@ -8,7 +8,10 @@ GET("/", async (_, req) => {
       captcha: { enabled: true, key: "3daae85e-09ab-4ff6-9f24-e8f4f335e433" },
       email: true,
       invite_only: false,
-      autumn: { enabled: true, url: "https://autumn.revolt.chat" },
+      autumn: {
+        enabled: true,
+        url: `http${req.secure ? "s" : ""}://${req.get("host")}/attachments`,
+      },
       //TODO: dont hardcode this
       january: { enabled: true, url: "https://jan.revolt.chat" },
       // voice is not supported
