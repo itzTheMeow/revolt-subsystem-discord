@@ -5,9 +5,8 @@ import { Req } from "./types";
 const ClientMap: { client: Client; token: string }[] = [];
 
 export function getAuthenticated(req: Req) {
-  const token = req.header("X-Bot-Token");
-
-  return ClientMap.find((c) => c.token == token) ?? null;
+  const token = req.header("X-Bot-Token") || req.header("X-Session-Token");
+  return ClientMap.find((c) => c.token == token)?.client ?? null;
 }
 
 export async function doAuthenticate(token: string) {

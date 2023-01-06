@@ -1,11 +1,13 @@
 import cors from "cors";
+import { Client } from "discord.js";
 import express from "express";
 import { createServer } from "http";
 import ws from "ws";
+import { getAuthenticated } from "./auth";
 import config from "./config";
 import { Logger } from "./logger";
 import initRoutes from "./routes";
-import { Count, GetRoutes, Req } from "./types";
+import { Count, GetRoutes, PostRoutes, Req } from "./types";
 import handleConnection from "./ws";
 
 const app = express();
@@ -18,10 +20,40 @@ export function GET<
     path: Path;
     parts: Count<Path, "/">;
   }
-  //@ts-expect-error - not sure why, but it works so whatever
->(path: Path, callback: (params: Route["params"], req: Req) => Promise<Route["response"]>) {
+>(
+  path: Path,
+  callback: (
+    //@ts-expect-error - not sure why, but it works so whatever
+    params: Route["params"] & { authenticated: Client },
+    req: Req
+    //@ts-expect-error
+  ) => Promise<Route["response"]>
+) {
   app.get(path, async (req, res) => {
-    res.json(await callback(req.body, req));
+    const authenticated = getAuthenticated(req);
+    if (!authenticated && path !== "/") return res.status(401).json({ err: "Unauthorized" });
+    res.status(200).json(await callback({ ...(<any>req.query), authenticated }, req));
+  });
+}
+export function POST<
+  Path extends PostRoutes["path"],
+  Route extends PostRoutes & {
+    path: Path;
+    parts: Count<Path, "/">;
+  }
+>(
+  path: Path,
+  callback: (
+    //@ts-expect-error - not sure why, but it works so whatever
+    params: Route["params"] & { authenticated: Client },
+    req: Req
+    //@ts-expect-error
+  ) => Promise<Route["response"]>
+) {
+  app.post(path, async (req, res) => {
+    const authenticated = getAuthenticated(req);
+    if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
+    res.status(200).json(await callback({ ...(<any>req.body), authenticated }, req));
   });
 }
 
