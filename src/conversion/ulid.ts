@@ -1,9 +1,9 @@
-import { getTimestamp } from "discord-snowflake";
 import { encodeTime } from "ulid";
 
 const TIME_LEN = 10,
   RANDOM_LEN = 16,
-  RADIX = 35;
+  RADIX = 35,
+  EPOCH = 1420070400000n;
 
 // Shamelessly adapted from https://stackoverflow.com/a/55646905
 function hex2bigint(value: string) {
@@ -19,7 +19,7 @@ function hex2bigint(value: string) {
 
 export function snowflakeToULID(id: string) {
   return (
-    encodeTime(getTimestamp(<any>id), TIME_LEN) +
+    encodeTime(Number((BigInt(id) >> BigInt(22)) + EPOCH), TIME_LEN) +
     BigInt(id).toString(RADIX).toUpperCase().padStart(RANDOM_LEN, "Z")
   );
 }

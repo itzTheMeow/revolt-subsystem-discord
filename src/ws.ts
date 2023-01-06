@@ -4,6 +4,7 @@ import {
 } from "revolt-toolset/dist/es6/websocketNotifications";
 import WebSocket from "ws";
 import { destroyClient, doAuthenticate } from "./auth";
+import mapUser from "./conversion/user";
 
 export default async function handleConnection(ws: WebSocket, _token: string) {
   function send(packet: ClientboundNotification) {
@@ -32,7 +33,7 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
 
   send({
     type: "Ready",
-    users: [],
+    users: authenticated.users.cache.map(mapUser),
     servers: [],
     channels: [],
     members: [],
