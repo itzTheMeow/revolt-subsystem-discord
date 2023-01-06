@@ -7,7 +7,7 @@ export default function mapAttachment(id: string, url: string, size = 256): APIA
     ? {
         _id: snowflakeToULID(id),
         tag: LZString.compressToEncodedURIComponent(url),
-        filename: url.split("/").pop(),
+        filename: url.split("/").pop().split("?")[0],
         metadata: {
           type: "Image",
           width: size,
