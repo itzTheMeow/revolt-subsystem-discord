@@ -1,0 +1,41 @@
+import {
+  ClientboundNotification,
+  ServerboundNotification,
+} from "revolt-toolset/dist/es6/websocketNotifications";
+import WebSocket from "ws";
+import { destroyClient, doAuthenticate } from "./auth";
+
+export default async function handleConnection(ws: WebSocket, _token: string) {
+  function send(packet: ClientboundNotification) {
+    ws.send(JSON.stringify(packet));
+  }
+
+  const authenticated = await doAuthenticate(_token);
+  if (!authenticated) {
+    ws.send(`{"type":"NotFound"}`);
+    ws.close();
+    return;
+  }
+
+  ws.on("message", (message: string) => {
+    try {
+      const packet = <ServerboundNotification>JSON.parse(message);
+      switch (packet.type) {
+        case "Ping":
+          return send({ type: "Pong", data: packet.data });
+      }
+    } catch {}
+  });
+  ws.on("close", () => {
+    destroyClient(authenticated);
+  });
+
+  send({
+    type: "Ready",
+    users: [],
+    servers: [],
+    channels: [],
+    members: [],
+    emojis: [],
+  });
+}
