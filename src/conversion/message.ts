@@ -12,6 +12,9 @@ export default function mapMessage(message: Message): APIMessage {
     edited: message.editedAt?.toISOString() ?? null,
     embeds: null, //TODO:
     interactions: null, //TODO:
+    masquerade: message.webhookId
+      ? { name: message.author.username, avatar: message.author.displayAvatarURL() }
+      : null,
     mentions: null, //TODO:
     reactions: null, //TODO:
     replies: null, //TODO:
