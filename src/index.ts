@@ -38,7 +38,8 @@ export function GET<
 ) {
   app.get(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
-    if (!authenticated && path !== "/") return res.status(401).json({ err: "Unauthorized" });
+    if (!authenticated && path !== "/" && path !== "/onboard/hello")
+      return res.status(401).json({ err: "Unauthorized" });
     res
       .status(200)
       .json(await callback({ ...(<any>req.query), ...req.params, authenticated }, req));
