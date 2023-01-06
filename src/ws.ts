@@ -34,6 +34,7 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
     destroyClient(authenticated);
   });
 
+  send({ type: "Authenticated" });
   send({
     type: "Ready",
     users: authenticated.users.cache.map(mapUser),

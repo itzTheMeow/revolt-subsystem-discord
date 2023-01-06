@@ -33,4 +33,5 @@ export async function destroyClient(client: Client) {
   const i = ClientMap.findIndex((c) => c.client == client);
   if (i >= 0) ClientMap.splice(i, 1);
   client.destroy();
+  Logger.debug("Destroyed client.");
 }

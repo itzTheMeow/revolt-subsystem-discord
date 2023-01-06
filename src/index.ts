@@ -10,7 +10,7 @@ import { getAuthenticated } from "./auth";
 import config from "./config";
 import { Logger } from "./logger";
 import initRoutes from "./routes";
-import { Count, GetRoutes, PostRoutes, Req } from "./types";
+import { Count, GetRoutes, PostRoutes, PutRoutes, Req } from "./types";
 import handleConnection from "./ws";
 
 const app = express();
@@ -61,6 +61,27 @@ export function POST<
   ) => Promise<Route["response"]>
 ) {
   app.post(doPath(path), nocache(), async (req, res) => {
+    const authenticated = getAuthenticated(req);
+    if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
+    res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));
+  });
+}
+export function PUT<
+  Path extends PutRoutes["path"],
+  Route extends PutRoutes & {
+    path: Path;
+    parts: Count<Path, "/">;
+  }
+>(
+  path: Path,
+  callback: (
+    //@ts-expect-error - not sure why, but it works so whatever
+    params: Route["params"] & { authenticated: Client },
+    req: Req
+    //@ts-expect-error
+  ) => Promise<Route["response"]>
+) {
+  app.put(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
     res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));

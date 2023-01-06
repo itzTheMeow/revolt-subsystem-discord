@@ -20,7 +20,7 @@ export default function mapChannel(channel: Channel): APIChannel | null {
                 d: discPerm2Revolt(o.deny).bits,
               }))[0] ?? null,
           icon: null,
-          last_message_id: channel.lastMessageId,
+          last_message_id: snowflakeToULID(channel.lastMessageId),
           nsfw: channel.nsfw,
           role_permissions: channel.permissionOverwrites.cache
             .filter((o) => o.type == OverwriteType.Role && o.id !== channel.guildId)

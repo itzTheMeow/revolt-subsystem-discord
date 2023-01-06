@@ -11,3 +11,4 @@ export type Count<
   : Matches["length"];
 export type GetRoutes = APIRoutes & { method: "get" };
 export type PostRoutes = APIRoutes & { method: "post" };
+export type PutRoutes = APIRoutes & { method: "put" };
