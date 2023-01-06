@@ -27,7 +27,10 @@ export default function mapChannel(channel: Channel): APIChannel | null {
             .reduce(
               (v, o) => ({
                 ...v,
-                [o.id]: { a: discPerm2Revolt(o.allow).bits, d: discPerm2Revolt(o.deny).bits },
+                [snowflakeToULID(o.id)]: {
+                  a: discPerm2Revolt(o.allow).bits,
+                  d: discPerm2Revolt(o.deny).bits,
+                },
               }),
               {}
             ),
