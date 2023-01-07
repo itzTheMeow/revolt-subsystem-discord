@@ -85,7 +85,7 @@
                 <g
                    aria-label="s"
                    id="text848"
-                   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:87.3813px;line-height:1.25;font-family:Nevis;-inkscape-font-specification:'Nevis, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.18453">
+                   style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:87.3813px;line-height:1.25;font-family:Nevis;-inkscape-font-specification:'Nevis, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.18453">
                   <path
                      d="m 251.42934,271.07735 c 4.01066,0 7.12532,0.48355 9.34399,1.45066 2.21867,0.96711 -1.93422,-1.90578 0,0 l -2.28471,11.19932 c -1.93423,-2.304 -2.49395,-2.83665 -5.39528,-2.83665 -2.87289,0 -4.79289,0.54044 -5.76,1.62133 -0.96711,1.05245 -0.96711,2.01956 0,2.90133 0.96711,0.85333 2.88711,1.56445 5.76,2.13334 4.23822,0.39822 7.70844,1.60711 10.41066,3.62666 2.70222,2.01955 4.05333,5.53244 4.05333,10.53866 0,4.03911 -1.59289,7.168 -4.77867,9.38667 -3.18577,2.21867 -6.89777,3.328 -11.13599,3.328 -4.03911,0 -7.40978,-0.56889 -10.112,-1.70667 -2.67377,-1.16622 1.93422,1.93422 0,0 l 1.89108,-11.5042 c 1.93422,2.304 2.74537,3.02776 6.81292,3.39754 3.27111,0 5.37599,-0.52622 6.31466,-1.57867 0.96711,-1.08089 1.10934,-2.14755 0.42667,-3.2 -0.65422,-1.08089 -2.90133,-1.80622 -6.74133,-2.176 -3.47022,-0.39822 -6.656,-1.46489 -9.55733,-3.2 -2.87289,-1.73511 -4.30933,-5.00622 -4.30933,-9.81333 0,-4.40889 1.63555,-7.76533 4.90666,-10.06933 3.29955,-2.33244 6.68444,-3.49866 10.15467,-3.49866 z"
                      id="path852"
@@ -97,12 +97,12 @@
                   <path
                      id="polyline861"
                      d="m 264.94078,267.68424 2.20708,2.62424 2.62424,-2.20708"
-                     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
                      sodipodi:nodetypes="ccc" />
                   <path
                      id="line863"
                      d="m 267.14786,265.98271 v 4.32577"
-                     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
                      sodipodi:nodetypes="cc" />
                 </g>
                 <g
@@ -111,12 +111,12 @@
                   <path
                      id="polyline861-4"
                      d="m 264.94078,267.68424 2.20708,2.62424 2.62424,-2.20708"
-                     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
                      sodipodi:nodetypes="ccc" />
                   <path
                      id="line863-2"
                      d="m 267.14786,265.98271 v 4.32577"
-                     style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
+                     style="fill:none;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"
                      sodipodi:nodetypes="cc" />
                 </g>
               </g>
