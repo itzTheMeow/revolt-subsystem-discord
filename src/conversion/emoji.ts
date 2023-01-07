@@ -7,7 +7,7 @@ export default function mapEmoji(emoji: GuildEmoji): APIEmoji {
     _id: snowflakeToULID(emoji.id),
     name: emoji.name,
     animated: emoji.animated,
-    creator_id: snowflakeToULID(emoji.author.id),
+    creator_id: snowflakeToULID(emoji.author?.id || emoji.client.user.id),
     nsfw: false,
     parent: { type: "Server", id: snowflakeToULID(emoji.guild.id) },
   };
