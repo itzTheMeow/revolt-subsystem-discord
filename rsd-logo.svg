@@ -13,7 +13,10 @@
    version="1.1"
    id="svg4"
    sodipodi:docname="rsd-logo.svg"
-   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)">
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   inkscape:export-filename="C:\Users\Alex\Downloads\revolt-discord-api\rsd-logo.png"
+   inkscape:export-xdpi="48"
+   inkscape:export-ydpi="48">
   <metadata
      id="metadata10">
     <rdf:RDF>
@@ -42,12 +45,12 @@
      id="namedview6"
      showgrid="false"
      inkscape:zoom="1.0091208"
-     inkscape:cx="288.42006"
-     inkscape:cy="295.31778"
+     inkscape:cx="223.41399"
+     inkscape:cy="277.37654"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g879"
+     inkscape:current-layer="g892"
      units="px"
      inkscape:document-rotation="0" />
   <g
@@ -70,12 +73,12 @@
                  fill="#ff4654"
                  id="path2"
                  sodipodi:nodetypes="ssccssccccccccccsc"
-                 style="stroke-width:1.01261" />
+                 style="stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none" />
               <path
                  d="m 338.35274,192 h -46.81759 v 53.0223 l 31.16472,28.20343 v -51.47112 h 16.78101 c 10.57627,0 15.79388,5.21758 15.79388,13.39653 v 39.34372 c 0,8.17895 -4.93558,13.67868 -15.79388,13.67868 h -47.94574 v 29.89554 h 46.81759 c 25.10101,0.14102 48.65079,-12.40944 48.65079,-41.45892 V 234.16405 C 387.00352,204.83252 363.45373,192 338.35274,192 Z"
                  id="path835"
                  sodipodi:nodetypes="sccccsssscccsss"
-                 style="fill:#7289da;fill-opacity:1;stroke:none;stroke-width:1.41016;stroke-opacity:1" />
+                 style="fill:#7289da;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
               <g
                  id="g976"
                  transform="matrix(1.690067,0,0,1.690067,-168.7014,-226.58485)">
