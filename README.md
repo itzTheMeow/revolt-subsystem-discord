@@ -1,4 +1,6 @@
-# Revolt Subsystem for Discord - RSD
+![RSD Logo](https://github.com/itzTheMeow/revolt-subsystem-discord/raw/master/rsd-logo-dark-mark.png)
+
+# Revolt Subsystem for Discord
 
 This repo is a compatibility layer for the Revolt API that uses discord's backend.
 
