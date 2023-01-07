@@ -1,4 +1,4 @@
-# Revolt <===> Discord API Bridge
+# Revolt Subsystem for Discord - RSD
 
 This repo is a compatibility layer for the Revolt API that uses discord's backend.
 
