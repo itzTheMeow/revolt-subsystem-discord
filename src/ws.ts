@@ -7,6 +7,7 @@ import { destroyClient, doAuthenticate } from "./auth";
 import mapChannel from "./conversion/channel";
 import mapEmoji from "./conversion/emoji";
 import mapMember from "./conversion/member";
+import mapMessage from "./conversion/message";
 import mapServer from "./conversion/server";
 import mapUser from "./conversion/user";
 
@@ -33,6 +34,10 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
   });
   ws.on("close", () => {
     destroyClient(authenticated);
+  });
+
+  authenticated.on("messageCreate", (message) => {
+    send({ type: "Message", ...mapMessage(message) });
   });
 
   send({ type: "Authenticated" });

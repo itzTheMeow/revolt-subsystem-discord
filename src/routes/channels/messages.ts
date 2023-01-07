@@ -1,3 +1,4 @@
+import LZString from "lz-string";
 import { GET, POST } from "../..";
 import mapMember from "../../conversion/member";
 import mapMessage from "../../conversion/message";
@@ -52,9 +53,11 @@ POST("-/channels/{target}/messages", async (params) => {
             failIfNotExists: false,
           }
         : undefined,
+      nonce: LZString.compress(params.nonce), // max nonce is 25 long, ULIDs are 26
     });
-    return { ...mapMessage(message), nonce: params.nonce };
-  } catch {
+    return mapMessage(message);
+  } catch (err) {
+    Logger.debug(err);
     return <any>{ err: "Invalid" };
   }
 });

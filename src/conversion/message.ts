@@ -1,4 +1,5 @@
 import { FormattingPatterns, Message, MessageMentions } from "discord.js";
+import LZString from "lz-string";
 import { APIMessage } from "revolt-toolset";
 import { snowflakeToULID } from "./ulid";
 
@@ -33,6 +34,7 @@ export default function mapMessage(message: Message): APIMessage {
       ? { name: message.author.username, avatar: message.author.displayAvatarURL() }
       : null,
     mentions: null, //TODO:
+    nonce: LZString.decompress(String(message.nonce)),
     reactions: null, //TODO:
     replies: null, //TODO:
     system: null, //TODO:
