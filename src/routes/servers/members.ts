@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import { GET } from "../..";
 import mapMember from "../../conversion/member";
-import { ulidToSnowflake } from "../../conversion/ulid";
+import { snowflakeToULID, ulidToSnowflake } from "../../conversion/ulid";
 import mapUser from "../../conversion/user";
 
 GET("-/servers/{target}/members", async (params: { authenticated: Client; target: string }) => {
@@ -26,8 +26,21 @@ GET(
         user: ulidToSnowflake(params.member),
       });
       return mapMember(members[0]);
-    } catch (err) {
-      return { type: "NotFound" };
+    } catch {
+      try {
+        const server = params.authenticated.guilds.cache.get(ulidToSnowflake(params.target));
+        const hook = (await server.fetchWebhooks()).find(
+          (w) => w.id == ulidToSnowflake(params.member)
+        );
+        return hook
+          ? {
+              _id: { server: snowflakeToULID(server.id), user: snowflakeToULID(hook.id) },
+              joined_at: hook.createdAt.toISOString(),
+            }
+          : { type: "NotFound" };
+      } catch {
+        return { type: "NotFound" };
+      }
     }
   }
 );
