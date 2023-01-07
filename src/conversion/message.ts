@@ -1,4 +1,4 @@
-import { Message, MessageMentions } from "discord.js";
+import { FormattingPatterns, Message, MessageMentions } from "discord.js";
 import { APIMessage } from "revolt-toolset";
 import { snowflakeToULID } from "./ulid";
 
@@ -18,6 +18,10 @@ export default function mapMessage(message: Message): APIMessage {
         .replace(
           new RegExp(MessageMentions.RolesPattern, "g"),
           (_, id) => `@${message.guild?.roles.cache.get(id)?.name || `Role_${id}`}`
+        )
+        .replace(
+          new RegExp(FormattingPatterns.Emoji, "g"),
+          (_, __, ___, id) => `:${snowflakeToULID(id)}:`
         ) || null,
     author: snowflakeToULID(message.author.id),
     attachments: null, //TODO:

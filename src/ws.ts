@@ -5,6 +5,7 @@ import {
 import WebSocket from "ws";
 import { destroyClient, doAuthenticate } from "./auth";
 import mapChannel from "./conversion/channel";
+import mapEmoji from "./conversion/emoji";
 import mapMember from "./conversion/member";
 import mapServer from "./conversion/server";
 import mapUser from "./conversion/user";
@@ -44,6 +45,6 @@ export default async function handleConnection(ws: WebSocket, _token: string) {
       .map((g) => g.members.cache.map((m) => m))
       .flat(1)
       .map(mapMember),
-    emojis: [],
+    emojis: authenticated.emojis.cache.map(mapEmoji),
   });
 }
