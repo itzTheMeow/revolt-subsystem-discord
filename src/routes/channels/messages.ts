@@ -1,4 +1,4 @@
-import { GET } from "../..";
+import { GET, POST } from "../..";
 import mapMember from "../../conversion/member";
 import mapMessage from "../../conversion/message";
 import { ulidToSnowflake } from "../../conversion/ulid";
@@ -37,5 +37,24 @@ GET("-/channels/{target}/messages", async (params) => {
   } catch (err) {
     Logger.debug(err + "\n" + err.stack);
     return [];
+  }
+});
+
+POST("-/channels/{target}/messages", async (params) => {
+  try {
+    const channel = params.authenticated.channels.cache.get(ulidToSnowflake((<any>params).target));
+    if (!channel || !channel.isTextBased()) return { err: "Invalid" };
+    const message = await channel.send({
+      content: params.content,
+      reply: params.replies?.length
+        ? {
+            messageReference: params.replies[0].id,
+            failIfNotExists: false,
+          }
+        : undefined,
+    });
+    return { ...mapMessage(message), nonce: params.nonce };
+  } catch {
+    return <any>{ err: "Invalid" };
   }
 });
