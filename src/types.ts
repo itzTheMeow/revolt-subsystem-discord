@@ -12,3 +12,5 @@ export type Count<
 export type GetRoutes = APIRoutes & { method: "get" };
 export type PostRoutes = APIRoutes & { method: "post" };
 export type PutRoutes = APIRoutes & { method: "put" };
+
+export type RouteError = { type: "NotFound" };

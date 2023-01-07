@@ -1,7 +1,7 @@
 import axios from "axios";
 import cors from "cors";
 import { Client } from "discord.js";
-import express from "express";
+import express, { Request, Response } from "express";
 import { createServer } from "http";
 import LZString from "lz-string";
 import nocache from "nocache";
@@ -11,7 +11,7 @@ import config from "./config";
 import { ulidToSnowflake } from "./conversion/ulid";
 import { Logger } from "./logger";
 import initRoutes from "./routes";
-import { Count, GetRoutes, PostRoutes, PutRoutes, Req } from "./types";
+import { Count, GetRoutes, PostRoutes, PutRoutes, Req, RouteError } from "./types";
 import handleConnection from "./ws";
 
 const app = express();
@@ -20,6 +20,11 @@ app.use(express.json());
 
 function doPath(path: string) {
   return path.replace(/^-/, "").replace(/{(\S+?)}/g, ":$1");
+}
+
+async function respond(req: Request, res: Response, callback: any, data: Record<string, any>) {
+  const d = await callback(data, req);
+  res.status(d.type == "NotFound" ? 404 : 200).json(d);
 }
 
 export function GET<
@@ -35,15 +40,13 @@ export function GET<
     params: Route["params"] & { authenticated: Client },
     req: Req
     //@ts-expect-error
-  ) => Promise<Route["response"]>
+  ) => Promise<Route["response"] | RouteError>
 ) {
   app.get(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated && path !== "/" && path !== "/onboard/hello")
       return res.status(401).json({ err: "Unauthorized" });
-    res
-      .status(200)
-      .json(await callback({ ...(<any>req.query), ...req.params, authenticated }, req));
+    respond(req, res, callback, { ...req.query, ...req.params, authenticated });
   });
 }
 export function POST<
@@ -59,13 +62,13 @@ export function POST<
     params: Route["params"] & { authenticated: Client },
     req: Req
     //@ts-expect-error
-  ) => Promise<Route["response"]>
+  ) => Promise<Route["response"] | RouteError>
 ) {
   app.post(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated && path !== "/auth/session/login")
       return res.status(401).json({ err: "Unauthorized" });
-    res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));
+    respond(req, res, callback, { ...req.query, ...req.params, ...req.body, authenticated });
   });
 }
 export function PUT<
@@ -81,12 +84,12 @@ export function PUT<
     params: Route["params"] & { authenticated: Client },
     req: Req
     //@ts-expect-error
-  ) => Promise<Route["response"]>
+  ) => Promise<Route["response"] | RouteError>
 ) {
   app.put(doPath(path), nocache(), async (req, res) => {
     const authenticated = getAuthenticated(req);
     if (!authenticated) return res.status(401).json({ err: "Unauthorized" });
-    res.status(200).json(await callback({ ...(<any>req.body), ...req.params, authenticated }, req));
+    respond(req, res, callback, { ...req.query, ...req.params, ...req.body, authenticated });
   });
 }
 
