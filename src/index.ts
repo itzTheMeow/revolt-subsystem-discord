@@ -8,6 +8,7 @@ import nocache from "nocache";
 import ws from "ws";
 import { getAuthenticated } from "./auth";
 import config from "./config";
+import { ulidToSnowflake } from "./conversion/ulid";
 import { Logger } from "./logger";
 import initRoutes from "./routes";
 import { Count, GetRoutes, PostRoutes, PutRoutes, Req } from "./types";
@@ -89,13 +90,24 @@ export function PUT<
   });
 }
 
-app.get("/attachments/:data/*", async (req, res) => {
+app.get("/attachments/:bucket/:id", async (req, res) => {
   try {
-    const url = LZString.decompressFromEncodedURIComponent(req.params.data);
+    const url =
+      req.params.bucket == "emojis"
+        ? `https://cdn.discordapp.com/emojis/${ulidToSnowflake(req.params.id)}.gif`
+        : LZString.decompressFromEncodedURIComponent(req.params.bucket);
     if (!url) return res.status(404).send("NOT OK");
-    const data = await axios.get(url, {
-      responseType: "arraybuffer",
-    });
+    const data = await (async () => {
+      try {
+        return await axios.get(url, {
+          responseType: "arraybuffer",
+        });
+      } catch {
+        return await axios.get(url.replace(/\.gif$/, ".png"), {
+          responseType: "arraybuffer",
+        });
+      }
+    })();
     res.contentType(data.headers["content-type"]).status(200).end(data.data);
   } catch {
     res.status(404).send("NOT OK");
