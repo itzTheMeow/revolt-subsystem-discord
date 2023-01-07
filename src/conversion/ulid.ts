@@ -2,8 +2,21 @@ import { encodeTime } from "ulid";
 
 const TIME_LEN = 10,
   RANDOM_LEN = 16,
-  RADIX = 35,
-  EPOCH = 1420070400000n;
+  RADIX = 31,
+  EPOCH = 1420070400000n,
+  DISALLOWED = {
+    I: "V",
+    L: "W",
+    O: "X",
+    U: "Y",
+  };
+
+function replaceDisallow(str: string, reverse = false) {
+  Object.entries(DISALLOWED).forEach(([d1, d2]) => {
+    str = str.replace(new RegExp(reverse ? d2 : d1, "gi"), reverse ? d1 : d2);
+  });
+  return str;
+}
 
 // Shamelessly adapted from https://stackoverflow.com/a/55646905
 function hex2bigint(value: string) {
@@ -20,9 +33,9 @@ function hex2bigint(value: string) {
 export function snowflakeToULID(id: string) {
   return (
     encodeTime(Number((BigInt(id) >> BigInt(22)) + EPOCH), TIME_LEN) +
-    BigInt(id).toString(RADIX).toUpperCase().padStart(RANDOM_LEN, "Z")
+    replaceDisallow(BigInt(id).toString(RADIX).toUpperCase()).padStart(RANDOM_LEN, "Z")
   );
 }
 export function ulidToSnowflake(id: string) {
-  return hex2bigint(id.slice(TIME_LEN).replace(/^Z+/i, "")).toString();
+  return hex2bigint(replaceDisallow(id.slice(TIME_LEN).replace(/^Z+/i, ""), true)).toString();
 }
