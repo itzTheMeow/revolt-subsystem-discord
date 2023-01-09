@@ -21,11 +21,11 @@ GET(
   async (params: { authenticated: Client; target: string; member: string }) => {
     try {
       const server = params.authenticated.guilds.cache.get(ulidToSnowflake(params.target));
-      const members = await server.members.fetch({
+      const member = await server.members.fetch({
         withPresences: true,
         user: ulidToSnowflake(params.member),
       });
-      return mapMember(members[0]);
+      return mapMember(member);
     } catch {
       try {
         const server = params.authenticated.guilds.cache.get(ulidToSnowflake(params.target));
