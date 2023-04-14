@@ -55,7 +55,9 @@ export default function mapUser(user: DiscordUser): APIUser {
                       return "";
                   }
                 })() +
-                (activity.type == ActivityType.Custom ? activity.state : activity.name).trim()
+                  (
+                    (activity.type == ActivityType.Custom ? activity.state : activity.name) || ""
+                  ).trim() || null
               : null,
           };
         })[0] ?? null,
