@@ -93,7 +93,7 @@ export function PUT<
   });
 }
 
-app.get("/attachments/:bucket/:id", async (req, res) => {
+app.get("/attachments/:bucket/:id/:filename?", async (req, res) => {
   try {
     const url =
       req.params.bucket == "emojis"
