@@ -1,6 +1,7 @@
 import { FormattingPatterns, Message, MessageMentions } from "discord.js";
 import LZString from "lz-string";
 import { APIMessage } from "revolt-toolset";
+import mapAttachment from "./attachment";
 import { snowflakeToULID } from "./ulid";
 
 export default function mapMessage(message: Message): APIMessage {
@@ -25,7 +26,9 @@ export default function mapMessage(message: Message): APIMessage {
           (_, __, ___, id) => `:${snowflakeToULID(id)}:`
         ) || null,
     author: snowflakeToULID(message.author.id),
-    attachments: null, //TODO:
+    attachments: message.attachments.map((a) =>
+      mapAttachment(a.id, a.url, a.width, a.height, a.size)
+    ),
     channel: snowflakeToULID(message.channelId),
     edited: message.editedAt?.toISOString() ?? null,
     embeds: null, //TODO:
