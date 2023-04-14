@@ -1,3 +1,4 @@
+import { Message } from "discord.js-selfbot-v13";
 import LZString from "lz-string";
 import { GET, POST } from "../..";
 import mapMember from "../../conversion/member";
@@ -9,8 +10,8 @@ import { Logger } from "../../logger";
 GET("-/channels/{target}/messages", async (params) => {
   try {
     const channel = params.authenticated.channels.cache.get(ulidToSnowflake((<any>params).target));
-    if (!channel || !channel.isTextBased()) return [];
-    const messages = [
+    if (!channel || !channel.isText()) return [];
+    const messages: Message[] = [
       ...(
         await channel.messages.fetch({
           limit: params.limit || 100,
@@ -26,12 +27,13 @@ GET("-/channels/{target}/messages", async (params) => {
           .map((i) => messages.find((m) => m.author.id == i))
           .filter((m) => m)
           .map((m) => mapUser(m.author)),
-        members: !channel.isDMBased()
-          ? [...new Set(messages.map((m) => m.member?.id))]
-              .map((i) => channel.guild.members.cache.get(i || ""))
-              .filter((m) => m)
-              .map(mapMember)
-          : [],
+        members:
+          "guild" in channel
+            ? [...new Set(messages.map((m) => m.member?.id))]
+                .map((i) => channel.guild.members.cache.get(i || ""))
+                .filter((m) => m)
+                .map(mapMember)
+            : [],
         messages: messages.map(mapMessage),
       };
     } else return messages.map(mapMessage);
@@ -44,7 +46,7 @@ GET("-/channels/{target}/messages", async (params) => {
 POST("-/channels/{target}/messages", async (params) => {
   try {
     const channel = params.authenticated.channels.cache.get(ulidToSnowflake((<any>params).target));
-    if (!channel || !channel.isTextBased()) return { err: "Invalid" };
+    if (!channel || !channel.isText()) return { err: "Invalid" };
     const message = await channel.send({
       content: params.content,
       reply: params.replies?.length

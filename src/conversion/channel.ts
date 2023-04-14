@@ -1,10 +1,10 @@
-import { BaseGuildTextChannel, Channel, OverwriteType } from "discord.js";
+import { AnyChannel, BaseGuildTextChannel } from "discord.js-selfbot-v13";
 import { APIChannel, Permissions } from "revolt-toolset";
 import { discPerm2Revolt } from "./permissions";
 import { snowflakeToULID } from "./ulid";
 import { mapMarkdown } from "./util";
 
-export default function mapChannel(channel: Channel): APIChannel | null {
+export default function mapChannel(channel: AnyChannel): APIChannel | null {
   const _id = snowflakeToULID(channel.id);
   if (channel instanceof BaseGuildTextChannel)
     return channel.viewable
@@ -25,7 +25,7 @@ export default function mapChannel(channel: Channel): APIChannel | null {
           nsfw: channel.nsfw,
           role_permissions: {
             ...channel.permissionOverwrites.cache
-              .filter((o) => o.type == OverwriteType.Role && o.id !== channel.guildId)
+              .filter((o) => o.type == "role" && o.id !== channel.guildId)
               .reduce(
                 (v, o) => ({
                   ...v,
@@ -37,7 +37,7 @@ export default function mapChannel(channel: Channel): APIChannel | null {
                 {}
               ),
             ...channel.guild.roles.cache
-              .filter((r) => r.permissions.has("Administrator"))
+              .filter((r) => r.permissions.has("ADMINISTRATOR"))
               .reduce(
                 (v, o) => ({
                   ...v,

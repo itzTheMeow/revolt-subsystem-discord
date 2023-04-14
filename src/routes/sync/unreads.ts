@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client } from "discord.js-selfbot-v13";
 import { ulid } from "ulid";
 import { GET } from "../..";
 import { snowflakeToULID } from "../../conversion/ulid";

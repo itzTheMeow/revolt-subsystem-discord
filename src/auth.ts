@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client } from "discord.js-selfbot-v13";
 import { Logger } from "./logger";
 import { Req } from "./types";
 
@@ -11,9 +11,7 @@ export function getAuthenticated(req: Req) {
 
 export async function doAuthenticate(token: string) {
   return new Promise<Client | null>(async (res) => {
-    const client = new Client({
-      intents: <any>Object.keys(GatewayIntentBits),
-    });
+    const client = new Client();
     client.on("ready", () => {
       res(client);
     });

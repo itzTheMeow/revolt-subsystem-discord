@@ -1,6 +1,6 @@
 import axios from "axios";
 import cors from "cors";
-import { Client } from "discord.js";
+import { Client } from "discord.js-selfbot-v13";
 import express, { Request, Response } from "express";
 import { createServer } from "http";
 import LZString from "lz-string";
@@ -24,7 +24,9 @@ function doPath(path: string) {
 
 async function respond(req: Request, res: Response, callback: any, data: Record<string, any>) {
   const d = await callback(data, req);
-  res.status(d.type == "NotFound" ? 404 : 200).json(d);
+  res
+    .status(d?.type == "NotFound" ? 404 : d?.type == "InvalidCredentials" ? 401 : 200)
+    .json(d || {});
 }
 
 export function GET<
@@ -59,7 +61,10 @@ export function POST<
   path: Path,
   callback: (
     //@ts-expect-error - not sure why, but it works so whatever
-    params: Route["params"] & { authenticated: Client },
+    params: Route["params"] extends undefined
+      ? { authenticated: Client }
+      : //@ts-expect-error - not sure why, but it works so whatever
+        Route["params"] & { authenticated: Client },
     req: Req
     //@ts-expect-error
   ) => Promise<Route["response"] | RouteError>

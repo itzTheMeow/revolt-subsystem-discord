@@ -31,6 +31,7 @@ function hex2bigint(value: string) {
 }
 
 export function snowflakeToULID(id: string) {
+  if (!id) return null;
   return (
     encodeTime(Number((BigInt(id) >> BigInt(22)) + EPOCH), TIME_LEN) +
     replaceDisallow(BigInt(id).toString(RADIX).toUpperCase()).padStart(RANDOM_LEN, "Z")

@@ -1,8 +1,8 @@
-import { Embed } from "discord.js";
+import { MessageEmbed } from "discord.js-selfbot-v13";
 import { APIEmbed } from "revolt-toolset";
 import { mapMarkdown } from "./util";
 
-export default function mapEmbed(embed: Embed): APIEmbed {
+export default function mapEmbed(embed: MessageEmbed): APIEmbed {
   //TODO: support more than just youtube bridging
   if (embed.provider?.name == "YouTube" && embed.video) {
     return {

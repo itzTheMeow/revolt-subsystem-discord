@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client } from "discord.js-selfbot-v13";
 import { GET } from "../..";
 import mapMember from "../../conversion/member";
 import { snowflakeToULID, ulidToSnowflake } from "../../conversion/ulid";

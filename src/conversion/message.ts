@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message } from "discord.js-selfbot-v13";
 import LZString from "lz-string";
 import { APIMessage } from "revolt-toolset";
 import mapAttachment from "./attachment";

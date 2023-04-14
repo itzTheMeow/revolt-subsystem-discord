@@ -1,4 +1,4 @@
-import { CategoryChannel, ChannelType, Guild } from "discord.js";
+import { CategoryChannel, Guild } from "discord.js-selfbot-v13";
 import { APIServer, RevoltServerFlags, ServerFlags } from "revolt-toolset";
 import mapAttachment from "./attachment";
 import { discPerm2Revolt } from "./permissions";
@@ -8,23 +8,18 @@ export default function mapServer(server: Guild): APIServer {
   return {
     _id: snowflakeToULID(server.id),
     name: server.name,
-    banner: mapAttachment(server.id, server.bannerURL({ size: 256, extension: "png" })),
+    banner: mapAttachment(server.id, server.bannerURL({ size: 256 })),
     channels: server.channels.cache
-      .filter(
-        (c) =>
-          c.type == ChannelType.GuildAnnouncement ||
-          c.type == ChannelType.GuildText ||
-          c.type == ChannelType.GuildVoice
-      )
+      .filter((c) => c.type == "GUILD_NEWS" || c.type == "GUILD_TEXT" || c.type == "GUILD_VOICE")
       .filter((c) => c.viewable)
       .map((c) => snowflakeToULID(c.id)),
     categories: server.channels.cache
-      .filter((c) => c.type == ChannelType.GuildCategory)
+      .filter((c) => c.type == "GUILD_CATEGORY")
       .filter((c) => c.viewable)
       .map((c: CategoryChannel) => ({
         id: snowflakeToULID(c.id),
         title: c.name,
-        channels: c.children.cache
+        channels: c.children
           .filter((c) => c.viewable)
           .sorted((a, b) => a.position - b.position)
           .map((c) => snowflakeToULID(c.id)),
@@ -37,7 +32,7 @@ export default function mapServer(server: Guild): APIServer {
       if (server.features.includes("VERIFIED")) f.add(RevoltServerFlags.Verified);
       return f;
     })().bits,
-    icon: mapAttachment(server.id, server.iconURL({ size: 256, extension: "png" })),
+    icon: mapAttachment(server.id, server.iconURL({ size: 256 })),
     nsfw: false,
     owner: snowflakeToULID(server.ownerId),
     roles: server.roles.cache

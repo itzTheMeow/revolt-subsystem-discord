@@ -1,4 +1,4 @@
-import { GuildEmoji } from "discord.js";
+import { GuildEmoji } from "discord.js-selfbot-v13";
 import { APIEmoji } from "revolt-toolset";
 import { snowflakeToULID } from "./ulid";
 

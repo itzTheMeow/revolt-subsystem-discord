@@ -1,15 +1,19 @@
-import { FormattingPatterns, Guild, MessageMentions } from "discord.js";
+import { FormattingPatterns } from "discord-api-types/globals";
+import { Guild, MessageMentions } from "discord.js-selfbot-v13";
 import { snowflakeToULID } from "./ulid";
 
 export function mapMarkdown(text?: string, guild?: Guild): string {
   return text
-    ?.replace(new RegExp(MessageMentions.UsersPattern, "g"), (_, id) => `<@${snowflakeToULID(id)}>`)
+    ?.replace(
+      new RegExp(MessageMentions.USERS_PATTERN, "g"),
+      (_, id) => `<@${snowflakeToULID(id)}>`
+    )
     .replace(
-      new RegExp(MessageMentions.ChannelsPattern, "g"),
+      new RegExp(MessageMentions.CHANNELS_PATTERN, "g"),
       (_, id) => `<#${snowflakeToULID(id)}>`
     )
     .replace(
-      new RegExp(MessageMentions.RolesPattern, "g"),
+      new RegExp(MessageMentions.ROLES_PATTERN, "g"),
       (_, id) => `@${guild?.roles.cache.get(id)?.name || `Role_${id}`}`
     )
     .replace(

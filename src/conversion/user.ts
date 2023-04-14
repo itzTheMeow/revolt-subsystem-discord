@@ -1,4 +1,4 @@
-import { ActivityType, User as DiscordUser } from "discord.js";
+import { User as DiscordUser } from "discord.js-selfbot-v13";
 import { UserStatus } from "revolt-api";
 import { APIUser } from "revolt-toolset";
 import mapAttachment from "./attachment";
@@ -9,7 +9,7 @@ export default function mapUser(user: DiscordUser): APIUser {
     _id: snowflakeToULID(user.id),
     username: user.username,
     flags: 0,
-    avatar: mapAttachment(user.id, user.displayAvatarURL({ size: 256, extension: "png" })),
+    avatar: mapAttachment(user.id, user.displayAvatarURL({ size: 256 })),
     badges: 0,
     bot: user.bot ? { owner: snowflakeToULID(user.id) } : null,
     online: !!user.client.guilds.cache.find((g) => {
@@ -42,22 +42,21 @@ export default function mapUser(user: DiscordUser): APIUser {
             text: activity
               ? (() => {
                   switch (activity.type) {
-                    case ActivityType.Playing:
+                    case "PLAYING":
                       return "Playing ";
-                    case ActivityType.Listening:
+                    case "LISTENING":
                       return "Listening to ";
-                    case ActivityType.Watching:
+                    case "WATCHING":
                       return "Watching ";
-                    case ActivityType.Competing:
+                    case "COMPETING":
                       return "Competing in ";
-                    case ActivityType.Custom:
+                    case "CUSTOM":
                     default:
                       return "";
                   }
                 })() +
-                  (
-                    (activity.type == ActivityType.Custom ? activity.state : activity.name) || ""
-                  ).trim() || null
+                  ((activity.type == "CUSTOM" ? activity.state : activity.name) || "").trim() ||
+                null
               : null,
           };
         })[0] ?? null,
