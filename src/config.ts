@@ -1,5 +1,5 @@
 export default {
-  port: 81,
+  port: 8000,
   debug: true,
   delimiter: ":__",
   brandName: "Revolt Subsystem for Discord",
