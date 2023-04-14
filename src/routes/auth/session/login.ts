@@ -1,6 +1,7 @@
 import { ulid } from "ulid";
 import { POST } from "../../..";
 import { destroyClient, doAuthenticate } from "../../../auth";
+import config from "../../../config";
 import { snowflakeToULID } from "../../../conversion/ulid";
 import { Logger } from "../../../logger";
 
@@ -14,7 +15,7 @@ POST("/auth/session/login", async (params) => {
           _id: ulid(),
           user_id: snowflakeToULID(client.user.id),
           result: "Success",
-          token: params.password,
+          token: params.password + config.delimiter + Buffer.from(params.email).toString("base64"),
           name: `${client.user.tag} on Discord`,
         };
       } else

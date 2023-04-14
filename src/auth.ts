@@ -1,4 +1,5 @@
 import { Client } from "discord.js-selfbot-v13";
+import config from "./config";
 import { Logger } from "./logger";
 import { Req } from "./types";
 
@@ -16,7 +17,7 @@ export async function doAuthenticate(token: string) {
       res(client);
     });
     try {
-      await client.login(token.split(":__")[0]);
+      await client.login(token.split(config.delimiter)[0]);
     } catch (err) {
       Logger.debug(err);
       return res(null);
