@@ -15,5 +15,6 @@ export function mapMarkdown(text?: string, guild?: Guild): string {
     .replace(
       new RegExp(FormattingPatterns.Emoji, "g"),
       (_, __, ___, id) => `:${snowflakeToULID(id)}:`
-    );
+    )
+    .replace(new RegExp(FormattingPatterns.SlashCommand, "gu"), (_, name) => `\`/${name}\``);
 }
