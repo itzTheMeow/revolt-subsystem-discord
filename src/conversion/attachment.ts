@@ -13,7 +13,7 @@ export default function mapAttachment(
     ? {
         _id: snowflakeToULID(id),
         tag: LZString.compressToEncodedURIComponent(url),
-        filename: url.split("/").pop().split("?")[0],
+        filename: url.split("/").pop().split("?")[0] || "",
         metadata: {
           type: "Image",
           width,
