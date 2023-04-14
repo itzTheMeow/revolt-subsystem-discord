@@ -2,6 +2,7 @@ import { BaseGuildTextChannel, Channel, OverwriteType } from "discord.js";
 import { APIChannel, Permissions } from "revolt-toolset";
 import { discPerm2Revolt } from "./permissions";
 import { snowflakeToULID } from "./ulid";
+import { mapMarkdown } from "./util";
 
 export default function mapChannel(channel: Channel): APIChannel | null {
   const _id = snowflakeToULID(channel.id);
@@ -11,7 +12,7 @@ export default function mapChannel(channel: Channel): APIChannel | null {
           _id,
           channel_type: "TextChannel",
           name: channel.name,
-          description: channel.topic,
+          description: mapMarkdown(channel.topic),
           default_permissions:
             channel.permissionOverwrites.cache
               .filter((o) => o.id == channel.guildId)
