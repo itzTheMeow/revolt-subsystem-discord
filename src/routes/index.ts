@@ -21,5 +21,12 @@ GET("/", async (_, req) => {
     //TODO: dont hardcode this
     app: "https://app.revolt.chat",
     vapid: "", // no vapid support
+    build: {
+      commit_sha: "<failed to generate>",
+      commit_timestamp: "<failed to generate>",
+      semver: "<failed to generate>",
+      origin_url: "<failed to generate>",
+      timestamp: "<failed to generate>",
+    },
   };
 });
