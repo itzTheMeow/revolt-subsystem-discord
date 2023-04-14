@@ -4,8 +4,8 @@ GET("/", async (_, req) => {
   return {
     revolt: "0.5.5", // hardcoded
     features: {
-      //TODO: dont hardcode this
-      captcha: { enabled: true, key: "3daae85e-09ab-4ff6-9f24-e8f4f335e433" },
+      // this is the key returned from discord's login REST endpoint. subject to change probably
+      captcha: { enabled: true, key: "f5561ba9-8f1e-40ca-9b5b-a0b3f719ef34" },
       email: true,
       invite_only: false,
       autumn: {
