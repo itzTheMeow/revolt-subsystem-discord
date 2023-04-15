@@ -17,7 +17,8 @@ export function mapMarkdown(text?: string, guild?: Guild): string {
       (_, id) => `@${guild?.roles.cache.get(id)?.name || `Role_${id}`}`
     )
     .replace(
-      new RegExp(FormattingPatterns.Emoji, "g"),
+      // copied from FormattingPatterns.Emoji but modified to accept a 1-character emoji name
+      /<(?<animated>a)?:(?<name>\w{1,32}):(?<id>\d{17,20})>/g,
       (_, __, ___, id) => `:${snowflakeToULID(id)}:`
     )
     .replace(new RegExp(FormattingPatterns.SlashCommand, "gu"), (_, name) => `\`/${name}\``);
