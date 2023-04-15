@@ -18,6 +18,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+process.on("unhandledRejection", (err: Error) => {
+  console.error(`Unhandled Promise Rejection: ${err}\n${err?.stack}`);
+});
+
 function doPath(path: string) {
   return path.replace(/^-/, "").replace(/{(\S+?)}/g, ":$1");
 }
