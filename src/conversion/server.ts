@@ -10,18 +10,23 @@ export default function mapServer(server: Guild): APIServer {
     name: server.name,
     banner: mapAttachment(server.id, server.bannerURL({ size: 256 })),
     channels: server.channels.cache
-      .filter((c) => c.type == "GUILD_NEWS" || c.type == "GUILD_TEXT" || c.type == "GUILD_VOICE")
-      .filter((c) => c.viewable)
+      .filter((c) => c.type !== "GUILD_CATEGORY" && !c.type.includes("THREAD") && c.viewable)
       .map((c) => snowflakeToULID(c.id)),
     categories: server.channels.cache
-      .filter((c) => c.type == "GUILD_CATEGORY")
-      .filter((c) => c.viewable)
+      .filter((c) => c.type == "GUILD_CATEGORY" && c.viewable)
+      .sorted((a: CategoryChannel, b: CategoryChannel) => a.position - b.position)
       .map((c: CategoryChannel) => ({
         id: snowflakeToULID(c.id),
         title: c.name,
         channels: c.children
           .filter((c) => c.viewable)
-          .sorted((a, b) => a.position - b.position)
+          .sorted(
+            (a, b) =>
+              // pushes voice channels to the bottom
+              a.rawPosition +
+              (a.type.includes("VOICE") ? server.channels.cache.size ** 2 : 0) -
+              (b.rawPosition + (b.type.includes("VOICE") ? server.channels.cache.size ** 2 : 0))
+          )
           .map((c) => snowflakeToULID(c.id)),
       })),
     default_permissions: discPerm2Revolt(server.roles.cache.get(server.id)?.permissions).bits,
