@@ -31,7 +31,7 @@
     "lodash": "^4.17.21",
     "lz-string": "^1.4.4",
     "nocache": "^3.0.4",
-    "revolt-api": "0.5.7",
+    "revolt-api": "0.5.19",
     "revolt-toolset": "^1.0.55",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4",
